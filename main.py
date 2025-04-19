@@ -35,7 +35,8 @@ while True:
     try:
         # 关键修改：启用流式传输
         stream = client.chat.completions.create(
-            model="deepseek-chat",
+            # model="deepseek-chat",
+            model="deepseek-reasoner",
             messages=messages,
             temperature=1.3,
             stream=True  # 启用流式
@@ -43,12 +44,18 @@ while True:
 
         # 流式接收响应
         full_response = []
+        reasoning_content = []
         print("小婉", ":", end="", flush=True)
         for chunk in stream:
-            if chunk.choices[0].delta.content:  # 检查是否有内容
-                content = chunk.choices[0].delta.content
-                print(content, end="", flush=True)  # 实时输出
-                full_response.append(content)
+            if chunk.choices and chunk.choices[0].delta:
+                if chunk.choices[0].delta.reasoning_content:
+                    rcontent = chunk.choices[0].delta.reasoning_content
+                    print(rcontent, end="", flush=True)  # 实时输出
+                    reasoning_content.append(rcontent)
+                if chunk.choices[0].delta.content:  # 检查是否有内容
+                    content = chunk.choices[0].delta.content
+                    print(content, end="", flush=True)  # 实时输出
+                    full_response.append(content)
 
         # 拼接完整响应并保存到历史
         ai_content = "".join(full_response)
