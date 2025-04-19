@@ -21,7 +21,7 @@ except (FileNotFoundError, json.JSONDecodeError):
     # 如果文件不存在或解析失败，初始化消息列表
     messages = [{"role": "system", "content": sheding}]
 
-ai_name = input("你想怎么称呼TA:")
+# ai_name = input("你想怎么称呼TA:")
 
 while True:
     user_input = input("You:")
@@ -43,7 +43,7 @@ while True:
 
         # 流式接收响应
         full_response = []
-        print(ai_name, ":", end="", flush=True)
+        print("小婉", ":", end="", flush=True)
         for chunk in stream:
             if chunk.choices[0].delta.content:  # 检查是否有内容
                 content = chunk.choices[0].delta.content
@@ -59,8 +59,8 @@ while True:
         print(f"\n请求出错: {e}")
         continue
 
-    # 添加历史记录截断逻辑（示例保留最近10轮对话）
-    max_history = 30 * 2  # 10轮用户+助手消息
+    # 添加历史记录截断逻辑
+    max_history = 50 * 2  # 50轮用户+助手消息
     if len(messages) > max_history + 1:  # +1 保留系统消息
         messages = [messages[0]] + messages[-max_history:]
 
