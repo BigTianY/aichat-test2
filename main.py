@@ -37,7 +37,7 @@ while True:
         stream = client.chat.completions.create(
             model="deepseek-chat",
             messages=messages,
-            temperature=0.8,
+            temperature=1.3,
             stream=True  # 启用流式
         )
 
