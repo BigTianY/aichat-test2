@@ -21,31 +21,48 @@ except (FileNotFoundError, json.JSONDecodeError):
     # 如果文件不存在或解析失败，初始化消息列表
     messages = [{"role": "system", "content": sheding}]
 
+ai_name = input("你想怎么称呼TA:")
+
 while True:
     user_input = input("You:")
     if user_input == "再见啦":
+        # 退出前保存历史记录（保持原逻辑）
         print("(挥挥手)再见啦...")
         break
 
-    # 添加用户消息到消息列表
-    user_message = {"role": "user", "content": user_input}
-    messages.append(user_message)
+    messages.append({"role": "user", "content": user_input})
 
     try:
-        # 调用 OpenAI API
-        response = client.chat.completions.create(
+        # 关键修改：启用流式传输
+        stream = client.chat.completions.create(
             model="deepseek-chat",
             messages=messages,
-            temperature=1.3,
-            stream=False
+            temperature=0.8,
+            stream=True  # 启用流式
         )
-        # 打印响应内容
-        print(response.choices[0].message.content)
-        # 添加响应消息到消息列表
-        messages.append(response.choices[0].message.model_dump())
+
+        # 流式接收响应
+        full_response = []
+        print(ai_name, ":", end="", flush=True)
+        for chunk in stream:
+            if chunk.choices[0].delta.content:  # 检查是否有内容
+                content = chunk.choices[0].delta.content
+                print(content, end="", flush=True)  # 实时输出
+                full_response.append(content)
+
+        # 拼接完整响应并保存到历史
+        ai_content = "".join(full_response)
+        print()  # 换行
+        messages.append({"role": "assistant", "content": ai_content})
+
     except Exception as e:
-        print(f"请求出错: {e}")
+        print(f"\n请求出错: {e}")
         continue
+
+    # 添加历史记录截断逻辑（示例保留最近10轮对话）
+    max_history = 30 * 2  # 10轮用户+助手消息
+    if len(messages) > max_history + 1:  # +1 保留系统消息
+        messages = [messages[0]] + messages[-max_history:]
 
     try:
         # 将更新后的消息列表保存到历史记录文件
@@ -53,4 +70,3 @@ while True:
             json.dump(messages, f, ensure_ascii=False, indent=4)
     except Exception as e:
         print(f"保存历史记录出错: {e}")
-    print(response.usage.total_tokens)
