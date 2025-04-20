@@ -10,7 +10,7 @@ def rduihua():
 
     try:
         # 读取系统设定文件
-        with open("sheding.txt", "r", encoding="utf-8") as f:
+        with open("config/sheding.txt", "r", encoding="utf-8") as f:
             sheding = f.read()
     except FileNotFoundError:
         print("未找到 sheding.txt 文件，请检查文件路径。")
@@ -18,7 +18,7 @@ def rduihua():
 
     try:
         # 读取历史记录文件
-        with open("lishi.json", "r", encoding="utf-8") as f:
+        with open("config/lishi.json", "r", encoding="utf-8") as f:
             messages = json.load(f)
     except (FileNotFoundError, json.JSONDecodeError):
         # 如果文件不存在或解析失败，初始化消息列表
@@ -26,7 +26,7 @@ def rduihua():
 
     # 获取ainame
     try:
-        with open("ainame.txt", "r", encoding="utf-8") as f:
+        with open("config/ainame.txt", "r", encoding="utf-8") as f:
             ainame = f.read()
 
     except FileNotFoundError:
@@ -38,7 +38,7 @@ def rduihua():
 
     # 获取username
     try:
-        with open("username.txt", "r", encoding="utf-8") as f:
+        with open("config/username.txt", "r", encoding="utf-8") as f:
             username = f.read()
 
     except FileNotFoundError:
@@ -101,7 +101,7 @@ def rduihua():
 
         try:
             # 将更新后的消息列表保存到历史记录文件
-            with open("lishi.json", "w", encoding="utf-8") as f:
+            with open("config/lishi.json", "w", encoding="utf-8") as f:
                 json.dump(messages, f, ensure_ascii=False, indent=4)
         except Exception as e:
             print(f"保存历史记录出错: {e}")
