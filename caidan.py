@@ -6,21 +6,6 @@ def config():
             num = int(input("1.修改称呼\n2.修改设定\n0.退出\n请选择对应功能："))
             #修改称呼
             if num == 1:
-                #读取当前名字
-                try:
-                    with open("ainame.txt", "r", encoding="utf-8") as f:
-                        ainame = f.read()
-                        if ainame:
-                            print("当前的名字为：" + ainame)
-                        else:
-                            print("请给你的AI取个名字吧")
-                except FileNotFoundError:
-                    print("未找到 ainame.txt 文件，请检查文件路径。")
-                    exit(1)
-                except Exception as e:
-                    print(f"读取文件时出现错误: {e}")
-                    exit(1)
-
                 #进入修改称呼菜单
                 while True:
                     try:
