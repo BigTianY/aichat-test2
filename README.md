@@ -4,6 +4,10 @@
 目前仅适配了openai和deepseek  
 其他模型没研究过  
   
+**运行前需要先执行**  
+Windows： pip install openai  
+linux: pip3 install openai  
+  
 相关配置可以直接修改，也可以运行程序在里面修改  
   
 # 运行页面
