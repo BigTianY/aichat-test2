@@ -24,8 +24,32 @@ def duihua():
         # 如果文件不存在或解析失败，初始化消息列表
         messages = [{"role": "system", "content": sheding}]
 
+    # 获取ainame
+    try:
+        with open("ainame.txt", "r", encoding="utf-8") as f:
+            ainame = f.read()
+
+    except FileNotFoundError:
+        print("未找到 ainame.txt 文件，请检查文件路径。")
+        exit(1)
+    except Exception as e:
+        print(f"读取文件时出现错误: {e}")
+        exit(1)
+
+    # 获取username
+    try:
+        with open("username.txt", "r", encoding="utf-8") as f:
+            username = f.read()
+
+    except FileNotFoundError:
+        print("未找到 username.txt 文件，请检查文件路径。")
+        exit(1)
+    except Exception as e:
+        print(f"读取文件时出现错误: {e}")
+        exit(1)
+
     while True:
-        user_input = input(USERNAME + "：")
+        user_input = input(username + "：")
         if user_input == "再见啦":
             # 退出前保存历史记录（保持原逻辑）
             print("(挥挥手)再见啦...")
@@ -37,33 +61,21 @@ def duihua():
             # 关键修改：启用流式传输
             stream = client.chat.completions.create(
                 # model="deepseek-chat",
-                model="deepseek-reasoner",
+                model="deepseek-chat",
                 messages=messages,
                 #此项目在思考模型中无法使用
-                #temperature=1.3,
+                temperature=1.3,
                 stream=True  # 启用流式
             )
 
             # 流式接收响应
             full_response = []
-            print("<think>", end="", flush=True)
+            print(ainame + ": ", end="")
             for chunk in stream:
-                if chunk.choices and chunk.choices[0].delta:
-                    if chunk.choices[0].delta.reasoning_content:
-                        rcontent = chunk.choices[0].delta.reasoning_content
-                        print(rcontent, end="", flush=True)  # 实时输出
-                        # reasoning_content.append(rcontent)
-                    if chunk.choices and chunk.choices[0].delta.content:
-                        print("<think>\n" + AINAME + ": ", end="")
-                        content = chunk.choices[0].delta.content
-                        print(content, end="", flush=True)
-                        break
-            for chunk in stream:
-                if chunk.choices and chunk.choices[0].delta:
-                    if chunk.choices[0].delta.content:  # 检查是否有内容
-                        content = chunk.choices[0].delta.content
-                        print(content, end="", flush=True)  # 实时输出
-                        full_response.append(content)
+                if chunk.choices[0].delta.content:  # 检查是否有内容
+                    content = chunk.choices[0].delta.content
+                    print(content, end="", flush=True)  # 实时输出
+                    full_response.append(content)
             # 拼接完整响应并保存到历史
             ai_content = "".join(full_response)
             print()  # 换行
