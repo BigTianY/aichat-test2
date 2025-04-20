@@ -23,7 +23,7 @@ def config():
             if num == 2:
                 #获取当前设定
                 try:
-                    with open("sheding.txt", "r", encoding="utf-8") as f:
+                    with open("config/sheding.txt", "r", encoding="utf-8") as f:
                         sheding = f.read()
                     if sheding:
                         print("当前的设定为：" + sheding)
