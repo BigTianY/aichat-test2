@@ -2,6 +2,7 @@ import json
 from openai import OpenAI
 from config import *
 
+
 # 初始化 OpenAI 客户端
 client = OpenAI(api_key=DEEPSEEK_API_KEY, base_url="https://api.deepseek.com")
 
