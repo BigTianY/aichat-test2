@@ -11,4 +11,4 @@ linux: pip3 install openai
 相关配置可以直接修改，也可以运行程序在里面修改  
   
 # 运行页面
-![运行页面](img.png)
+![运行页面](img/img.png)
