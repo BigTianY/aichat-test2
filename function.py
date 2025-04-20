@@ -1,7 +1,7 @@
 def ai():
     # 读取当前名字
     try:
-        with open("ainame.txt", "r", encoding="utf-8") as f:
+        with open("config/ainame.txt", "r", encoding="utf-8") as f:
             ainame = f.read()
             if ainame:
                 print("当前的名字为：" + ainame)
@@ -15,7 +15,7 @@ def ai():
     if ainame == "exit":
         return
     try:
-        with open("ainame.txt", "w", encoding="utf-8") as f:
+        with open("config/ainame.txt", "w", encoding="utf-8") as f:
             f.write(ainame)
     except FileNotFoundError:
         print("未找到 ainame.txt 文件，请检查文件路径。")
@@ -28,7 +28,7 @@ def ai():
 def user():
     # 读取当前名字
     try:
-        with open("username.txt", "r", encoding="utf-8") as f:
+        with open("config/username.txt", "r", encoding="utf-8") as f:
             username = f.read()
             if username:
                 print("当前的名字为：" + username)
@@ -42,7 +42,7 @@ def user():
     if user_name == "exit":
         return
     try:
-        with open("username.txt", "w", encoding="utf-8") as f:
+        with open("config/username.txt", "w", encoding="utf-8") as f:
             f.write(user_name)
     except FileNotFoundError:
         print("未找到 username.txt 文件，请检查文件路径。")
@@ -57,7 +57,7 @@ def tianjiasheding():
     if content == "exit":
         return
     try:
-        with open("sheding.txt", "a", encoding="utf-8") as f:
+        with open("config/sheding.txt", "a", encoding="utf-8") as f:
             f.write(content)
     except FileNotFoundError:
         print("未找到 sheding.txt 文件，请检查文件路径。")
@@ -71,7 +71,7 @@ def chongxiesheding():
     if content == "exit":
         return
     try:
-        with open("sheding.txt", "w", encoding="utf-8") as f:
+        with open("config/sheding.txt", "w", encoding="utf-8") as f:
             f.write(content)
     except FileNotFoundError:
         print("未找到 sheding.txt 文件，请检查文件路径。")
